@@ -1,3 +1,5 @@
+//#include <stdint.h>
+#include <dragonruby.h>
 #include "constants.h"
 #include "vector.h"
 #include "matrix.h"
@@ -7,4 +9,3 @@
 #include "scene.h"
 #include "camera.h"
 #include "renderer.h"
-//#include <dragonruby.h>

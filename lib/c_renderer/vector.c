@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <math.h>
-#include <dragonruby.h>
 #include "constants.h"
 #include "vector.h"
 
@@ -23,7 +22,6 @@ void vector_copy_over(float source[static 4], float dest[static 4]) {
   dest[3] = source[3];
 }
 
-DRB_FFI
 void vector_set(float v[static 4],float x,float y,float z,float w) {
   v[0] = x; 
   v[1] = y; 
@@ -31,45 +29,38 @@ void vector_set(float v[static 4],float x,float y,float z,float w) {
   v[3] = w; 
 }
 
-DRB_FFI
 void vector_translate(float v[static 4],float dx,float dy,float dz) {
   v[0] += dx;
   v[1] += dy;
   v[2] += dz;
 }
 
-DRB_FFI
 bool vector_equality(float v1[static 4],float v2[static 4]) {
   return  ( fabs(v1[0] - v2[0]) < EPSILON ) &&
           ( fabs(v1[1] - v2[1]) < EPSILON ) &&
           ( fabs(v1[2] - v2[2]) < EPSILON );
 }
 
-DRB_FFI
 void vector_reverse(float v[static 4]) {
   v[0] = -v[0];
   v[1] = -v[1];
   v[2] = -v[2];
 }
 
-DRB_FFI
 void vector_scalar_mul(float v[static 4],float s) {
   v[0] *= s; 
   v[1] *= s; 
   v[2] *= s; 
 }
 
-DRB_FFI
 float vector_squared_magnitude(float v[static 4]) {
   return v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
 }
 
-DRB_FFI
 float vector_magnitude(float v[static 4]) {
   return sqrtf(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
 }
 
-DRB_FFI
 void vector_normalize(float v[static 4]) {
   float norm = sqrtf(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
 
@@ -78,7 +69,6 @@ void vector_normalize(float v[static 4]) {
   v[2] /= norm;
 }
 
-DRB_FFI
 void vector_rotate_x(float v[static 4],float angle) {
   float s = sinf(angle);
   float c = cosf(angle);
@@ -96,7 +86,6 @@ void vector_rotate_x(float v[static 4],float angle) {
   v[3]  = buffer[3];
 }
 
-DRB_FFI
 void vector_rotate_y(float v[static 4],float angle) {
   float s = sinf(angle);
   float c = cosf(angle);
@@ -114,7 +103,6 @@ void vector_rotate_y(float v[static 4],float angle) {
   v[3]  = buffer[3];
 }
 
-DRB_FFI
 void vector_rotate_z(float v[static 4],float angle) {
   float s = sinf(angle);
   float c = cosf(angle);
@@ -132,7 +120,6 @@ void vector_rotate_z(float v[static 4],float angle) {
   v[3]  = buffer[3];
 }
 
-DRB_FFI
 void vector_cross_product(float v1[static 4],float v2[static 4],float cp[static 4]) {
   float cx = v1[1] * v2[2] - v1[2] * v2[1];
   float cy = v1[2] * v2[0] - v1[0] * v2[2];
