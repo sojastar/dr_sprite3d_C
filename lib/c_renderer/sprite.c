@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <math.h>
 #include "sprite.h"
 
@@ -27,6 +28,17 @@ Sprite* new_sprite(Vertex* vertex,uint16_t width,uint16_t height,uint16_t scale,
 void free_sprite(Sprite* s) {
   free(s->vertex);
   free(s);
+}
+
+void print_sprite(Sprite* s,int indent) {
+  printf("%*sworld position:  (%.3f;%.3f;%.3f)\n", indent, "", s->vertex->world[0], s->vertex->world[1], s->vertex->world[2]);
+  printf("%*sview position:   (%.3f;%.3f;%.3f)\n", indent, "", s->vertex->view[0], s->vertex->view[1], s->vertex->view[2]);
+  printf("%*sdraw x and y:    (%hu;%hu)\n", indent, "", s->draw_x, s->draw_y);
+  printf("%*sdraw scale:      %.3f\n", indent, "", s->draw_scale);
+  printf("%*sdraw width:      (%hu;%hu)\n", indent, "", s->draw_width, s->draw_height);
+  printf("%*sangle:           %.3f\n", indent, "", s->angle);
+  printf("%*sfile:            %s\n", indent, "", s->atlas_file);
+  printf("%*satlas positon:   (%hu;%hu;%hu;%hu)\n", indent, "", s->atlas_x, s->atlas_y, s->atlas_w, s->atlas_h);
 }
 
 void sprite_compute_draw_size(Sprite* s) {

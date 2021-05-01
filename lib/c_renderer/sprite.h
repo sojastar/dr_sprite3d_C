@@ -24,6 +24,7 @@ typedef struct Sprite {
 
 Sprite* new_sprite(Vertex* v,uint16_t width,uint16_t height,uint16_t scale,const char* file,uint16_t atlas_x,uint16_t atlas_y,uint16_t atlas_w,uint16_t atlas_h);
 void    free_sprite(Sprite* s);
+void    print_sprite(Sprite* s,int indent);
 void    sprite_compute_draw_size(Sprite* s);
 void    sprite_rotate(Sprite* s,float da);
 void    sprite_rotate_absolute(Sprite* s,float a);

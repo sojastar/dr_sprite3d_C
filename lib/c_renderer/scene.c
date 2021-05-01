@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "scene.h"
 
 Scene* new_scene(void) {
@@ -9,6 +10,37 @@ Scene* new_scene(void) {
   s->last           = (void*)0;
 
   return s;
+}
+
+void free_scene(Scene* s) {
+  Element* current;
+  Element* next;
+  
+  current = s->first;
+  while(current != (void*)0) {
+    next    = current->next;
+
+    free(current->body);
+    free(current);
+
+    current = next;
+  }
+
+  free(s);
+}
+
+void print_scene(Scene* s,int indent) {
+  Element* current;
+  Element* next;
+  
+  printf("%*s-== Scene : ==-\n", indent, "");
+
+  current = s->first;
+  while(current != (void*)0) {
+    next    = current->next;
+    print_body(current->body, indent + 1);
+    current = next;
+  }
 }
 
 void scene_push_element(Scene* s,Body* b) {
@@ -22,30 +54,4 @@ void scene_push_element(Scene* s,Body* b) {
     s->first        = e;
   s->last           = e;
   s->element_count += 1;
-}
-
-void free_scene(Scene* s) {
-  Element* current;
-  Element* next;
-  
-  current = s->first;
-  /*do {
-    next = current->next;
-
-    free_body(current->body);
-    free(current);
-
-    current = next;
-
-  } while(current != (void*)0);*/
-  while(current != (void*)0) {
-    next    = current->next;
-
-    free(current->body);
-    free(current);
-
-    current = next;
-  }
-
-  free(s);
 }

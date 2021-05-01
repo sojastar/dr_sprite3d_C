@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include "body.h"
 
 #ifndef _ELEMENT_DEFINED
@@ -22,4 +23,5 @@ typedef struct Scene {
 
 Scene*  new_scene(void);
 void    free_scene(Scene* s);
+void    print_scene(Scene* s,int indent);
 void    scene_push_element(Scene* s,Body* b);

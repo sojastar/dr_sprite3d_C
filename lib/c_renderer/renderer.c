@@ -25,6 +25,13 @@ void free_renderer(Renderer *renderer) {
   free(renderer);
 }
 
+void print_renderer(Renderer *renderer) {
+  printf("=== Renderer : ===\n");
+  printf("- width x height: (%hu;%hu)\n", renderer->width, renderer->height);
+  printf("- far plane:      %f\n", renderer->far);
+  printf("- near plane:     %f\n", renderer->near);
+}
+
 bool vertex_in_frustum(Renderer* renderer,Vertex* vertex) {
   float x = vertex->view[0];
   float y = vertex->view[1];

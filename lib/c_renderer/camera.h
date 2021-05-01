@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <stdint.h>
 
 #define CAMERA_VIEW_MATRIX_NOT_COMPUTED 0
 #define CAMERA_VIEW_MATRIX_COMPUTED     1

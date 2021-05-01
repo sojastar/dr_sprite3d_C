@@ -1,10 +1,11 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <math.h>
 #include "vertex.h"
 #include "matrix.h"
 #include "body.h"
 
-Body* new_body(size_t sprite_count,Sprite** sprites) {
+Body* new_empty_body(size_t sprite_count) {
   Body* b = (Body *)malloc(sizeof(Body));
 
   b->world[0][0] = 1.0; b->world[0][1] = 0.0; b->world[0][2] = 0.0; b->world[0][3] = 0.0;
@@ -13,15 +14,39 @@ Body* new_body(size_t sprite_count,Sprite** sprites) {
   b->world[3][0] = 0.0; b->world[3][1] = 0.0; b->world[3][2] = 0.0; b->world[3][3] = 1.0;
 
   b->sprite_count  = sprite_count;
-  b->sprites       = sprites;
 
   return b;
+}
+
+Body* new_body(size_t sprite_count,Sprite** sprites) {
+  /*Body* b = (Body *)malloc(sizeof(Body));
+
+  b->world[0][0] = 1.0; b->world[0][1] = 0.0; b->world[0][2] = 0.0; b->world[0][3] = 0.0;
+  b->world[1][0] = 0.0; b->world[1][1] = 1.0; b->world[1][2] = 0.0; b->world[1][3] = 0.0;
+  b->world[2][0] = 0.0; b->world[2][1] = 0.0; b->world[2][2] = 1.0; b->world[2][3] = 0.0;
+  b->world[3][0] = 0.0; b->world[3][1] = 0.0; b->world[3][2] = 0.0; b->world[3][3] = 1.0;
+
+  b->sprite_count  = sprite_count;*/
+  Body* b = new_empty_body(sprite_count);
+  b->sprites = sprites;
+
+  return b;
+}
+
+Sprite** get_body_sprites(Body* b) {
+  return b->sprites;
 }
 
 void free_body(Body *b) {
   for(size_t i = 0; i < b->sprite_count; ++i)
     free(b->sprites[i]);
   free(b);
+}
+
+void print_body(Body* b,int indent) {
+  printf("%*s--= Body : =--\n", indent, "");
+  for (size_t i = 0; i < b->sprite_count; ++i)
+    print_sprite(b->sprites[i], indent + 1);
 }
 
 void body_move_to(Body* b,float x,float y,float z) {
