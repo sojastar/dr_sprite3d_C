@@ -4,6 +4,7 @@
 typedef struct Sprite Sprite;
 
 extern Sprite*  bridge_new_sprite(float x, float y, float z,int width,int height,int scale,const char* file,int atlas_x,int atlas_y,int atlas_w,int atlas_h);
+extern void     bridge_print_sprite(Sprite* s,int indent);
 extern void     bridge_sprite_rotate(Sprite* s,float da);
 extern void     bridge_sprite_rotate_absolute(Sprite* s,float a);
 
@@ -13,11 +14,12 @@ typedef struct Body Body;
 
 extern Body*    bridge_new_empty_body(size_t sprite_count);
 extern Sprite** bridge_get_body_sprites(Body* b);
+extern void     bridge_print_body(Body* b,int indent);
 extern void     bridge_body_move_to(Body* b,float dx,float dy,float dz);
 extern void     bridge_body_translate(Body* b,float x,float y,float z);
-extern void     bridge_body_rotate_x(Body *b,float a);
-extern void     bridge_body_rotate_y(Body *b,float a);
-extern void     bridge_body_rotate_z(Body *b,float a);
+extern void     bridge_body_rotate_x(Body* b,float a);
+extern void     bridge_body_rotate_y(Body* b,float a);
+extern void     bridge_body_rotate_z(Body* b,float a);
 extern void     bridge_body_reset_rotation(Body* b);
 
 
@@ -26,6 +28,7 @@ typedef struct Scene Scene;
 
 extern Scene* bridge_new_scene(void);
 extern void   bridge_scene_push_element(Scene* s,Body* b);
+extern void   bridge_print_scene(Scene* s,int indent);
 
 
 /* ---=== CAMERA : ===--- */
@@ -47,4 +50,5 @@ extern void     bridge_camera_move_up(SCamera* camera, float speed);
 typedef struct Renderer Renderer;
 
 extern Renderer*  bridge_new_renderer(int width,int height,float near,float far);
+extern void       bridge_print_renderer(Renderer* r);
 extern void       bridge_render_scene(Renderer* r,SCamera* c,Scene* s);

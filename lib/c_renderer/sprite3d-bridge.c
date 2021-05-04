@@ -11,6 +11,10 @@ Sprite*  bridge_new_sprite(float x, float y, float z,int width,int height,int sc
   return new_sprite(vertex, width, height, scale, file, atlas_x, atlas_y, atlas_w, atlas_h);
 }
 
+void bridge_print_sprite(Sprite* s,int indent) {
+  print_sprite(s, indent);
+}
+
 void bridge_sprite_rotate(Sprite* s,float da) {
   sprite_rotate(s, da);
 }
@@ -32,6 +36,10 @@ Sprite** bridge_get_body_sprites(Body* b) {
   return get_body_sprites(b);
 }
 
+void bridge_print_body(Body* b,int indent) {
+  print_body(b, indent);
+}
+
 void bridge_body_move_to(Body* b,float x,float y,float z) {
   body_move_to(b, x, y, z);
 }
@@ -40,15 +48,15 @@ void bridge_body_translate(Body* b,float dx,float dy,float dz) {
   body_translate(b, dx, dy, dz);
 }
 
-void bridge_body_rotate_x(Body *b,float a) {
+void bridge_body_rotate_x(Body* b,float a) {
   body_rotate_x(b, a);
 }
 
-void bridge_body_rotate_y(Body *b,float a) {
+void bridge_body_rotate_y(Body* b,float a) {
   body_rotate_y(b, a);
 }
 
-void bridge_body_rotate_z(Body *b,float a) {
+void bridge_body_rotate_z(Body* b,float a) {
   body_rotate_z(b, a);
 }
 
@@ -68,6 +76,11 @@ Scene* bridge_new_scene(void) {
 void bridge_scene_push_element(Scene* s,Body* b) {
   scene_push_element(s, b);
 }
+
+void bridge_print_scene(Scene* s,int indent) {
+  print_scene(s, indent);
+}
+
 
 
 
@@ -103,6 +116,7 @@ void bridge_camera_rotate_x(SCamera* camera,float angle) {
 void bridge_camera_rotate_y(SCamera* camera,float angle) {
   camera_rotate_y(camera, angle);
 }
+
 void bridge_camera_rotate_z(SCamera* camera,float angle) {
   camera_rotate_z(camera, angle);
 }
@@ -126,6 +140,10 @@ void bridge_camera_move_up(SCamera* camera, float speed) {
 /* ---=== RENDERER : ===--- */
 Renderer* bridge_new_renderer(int width,int height,float near,float far) {
   return new_renderer(width, height, near, far);
+}
+
+void bridge_print_renderer(Renderer* r) {
+  print_renderer(r);
 }
 
 void bridge_render_scene(Renderer* r,SCamera* c,Scene* s) {
