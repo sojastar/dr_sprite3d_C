@@ -4,7 +4,7 @@
 #include "counting_sort.h"
 #include "radix_sort.h"
 
-Renderer* new_renderer(uint16_t width,uint16_t height,float near, float far) {
+Renderer* new_renderer(uint16_t width,uint16_t height,float near, float far,size_t max_sprites) {
   Renderer* renderer = (Renderer *)malloc(sizeof(Renderer));
 
   renderer->width               = width;
@@ -14,8 +14,8 @@ Renderer* new_renderer(uint16_t width,uint16_t height,float near, float far) {
   renderer->ratio               = (float)width / height;
   renderer->near                = near;
   renderer->far                 = far;
-  renderer->in_frustum_sprites  = (void*)0;
-  renderer->sorted_sprites      = (void*)0;
+  renderer->in_frustum_sprites  = (Sprite**)malloc(max_sprites * sizeof(Sprite*));
+  renderer->sorted_sprites      = (Sprite**)malloc(max_sprites * sizeof(Sprite*));
 
   return renderer;
 }
@@ -59,28 +59,10 @@ void project_vertex(Renderer* renderer,SCamera* camera,Vertex* vertex) {
 }
 
 void render_scene(Renderer* renderer,SCamera* camera,Scene* scene) {
-  printf("Begin rendering...\n");
-  Element *current = scene->first;
-  if(renderer->in_frustum_sprites == (void*)0) {
-    size_t in_frustum_sprites_count  = 0;
-    while(current != (void*)0) {
-      in_frustum_sprites_count += current->body->sprite_count;
-      current = current->next;
-    }
-    printf("- found %zu sprites in scene.\n", in_frustum_sprites_count);
-
-    renderer->in_frustum_sprites  = (Sprite**)malloc(in_frustum_sprites_count * sizeof(Sprite*));
-    renderer->sorted_sprites      = (Sprite**)malloc(in_frustum_sprites_count * sizeof(Sprite*));
-
-    printf("- done allocating memory for sprites z-sorting.\n");
-  }
-
-  //printf("-- resseting camera view matrix... ");
   camera_reset_view_matrix(camera);
   camera_compute_view_matrix(camera);
-  //printf("Done!");
 
-  //printf("--- rendering bodies one by one.\n");
+  Element* current = scene->first;
   renderer->in_frustum_sprites_count  = 0;
   while(current != (void*)0) {
     Body* body  = current->body;
@@ -88,26 +70,20 @@ void render_scene(Renderer* renderer,SCamera* camera,Scene* scene) {
       Sprite* sprite  = body->sprites[i];
       Vertex* vertex  = sprite->vertex;
 
-      //printf("---- computing body sprites world coordinates.\n");
       compute_world_coordinates(vertex, body->world);
-      //printf("---- projecting body sprites.\n");
       project_vertex(renderer, camera, vertex);
 
       if (vertex->in_frustum) {
-        //printf("----- processing in frustum vertex... ");
         sprite_compute_draw_size(sprite);
 
         renderer->in_frustum_sprites[renderer->in_frustum_sprites_count] = sprite;
         renderer->in_frustum_sprites_count += 1;
-        //printf("Done!\n");
       }
     }
 
     current     = current->next; 
   }
   
-  //printf("------ Z-Sorting.\n");
   counting_sort(renderer->in_frustum_sprites_count, renderer->in_frustum_sprites, renderer->sorted_sprites);
   //radix_sort(renderer->in_frustum_sprites_count, renderer->in_frustum_sprites, renderer->sorted_sprites);
-  //printf("Rendering done!!!\n");
 }

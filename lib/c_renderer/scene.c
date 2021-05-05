@@ -6,6 +6,7 @@ Scene* new_scene(void) {
   Scene* s = (Scene *)malloc(sizeof(Scene));
 
   s->element_count  = 0;
+  s->sprite_count   = 0;
   s->first          = (void*)0;
   s->last           = (void*)0;
 
@@ -54,4 +55,13 @@ void scene_push_element(Scene* s,Body* b) {
     s->first        = e;
   s->last           = e;
   s->element_count += 1;
+  s->sprite_count  += b->sprite_count;
+}
+
+size_t scene_get_element_count(Scene* s) {
+  return s->element_count;
+}
+
+size_t scene_get_sprite_count(Scene* s) {
+  return s->sprite_count;
 }

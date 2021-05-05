@@ -17,7 +17,7 @@ typedef struct Renderer {
       Sprite**  sorted_sprites;
 } Renderer;
 
-Renderer* new_renderer(uint16_t width,uint16_t height,float near,float far);
+Renderer* new_renderer(uint16_t width,uint16_t height,float near,float far,size_t max_sprites);
 void      free_renderer(Renderer* r);
 void      print_renderer(Renderer* r);
 bool      vertex_in_frustum(Renderer* r,Vertex* vertex);

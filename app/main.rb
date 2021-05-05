@@ -22,16 +22,6 @@ SPRITE_SCALE  = 80
 
 # ---=== SETUP : ===---
 def setup(args)
-  # Camera
-  args.state.camera       = new_camera( 0.0, 0.0, 0.0,    # position
-                                        0.0, 0.0,-1.0,    # forward
-                                        0.0, 1.0, 0.0 )   # up
-  print_camera args.state.camera
-  
-  # Renderer :
-  args.state.renderer     = new_renderer( 1280, 720,    # viewport size
-                                          1.0, 300.0 )  # near and far planes
-  print_renderer  args.state.renderer
   # Scene :
   sprites = [ new_sprite(-1.0,-1.0,-1.0, 16, 16, 80, 'data/sprites/spheres_all.png',  0, 0, 16, 16),
               new_sprite( 1.0,-1.0,-1.0, 16, 16, 80, 'data/sprites/spheres_all.png', 16, 0, 16, 16),
@@ -49,11 +39,26 @@ def setup(args)
 
   args.state.scene  = new_scene
   args.state.scene.scene_push_element args.state.scene, args.state.cube
-  print_scene args.state.scene, 0
+  #print_scene args.state.scene, 0
+
+
+  # Camera
+  args.state.camera       = new_camera( 0.0, 0.0, 0.0,    # position
+                                        0.0, 0.0,-1.0,    # forward
+                                        0.0, 1.0, 0.0 )   # up
+  #print_camera args.state.camera
+  
+
+  # Renderer :
+  args.state.renderer     = new_renderer( 1280, 720,    # viewport size
+                                          1.0, 300.0,   # near and far planes
+                                          scene_get_sprite_count(args.state.scene) )
+
+  #print_renderer  args.state.renderer
 
 
   # Miscellenaous :
-  args.state.angle        = 0.01
+  args.state.angle        = 0.05
 
 
   args.state.setup_done = true
@@ -76,6 +81,9 @@ def tick(args)
   #  body.rotate_absolute( { :x => args.state.angle, :y => 2*args.state.angle, :z => 1.5*args.state.angle } )
   #  args.state.angle += 0.01
   #end
+  body_rotate_x(args.state.cube,        args.state.angle)
+  body_rotate_y(args.state.cube,  0.3 * args.state.angle)
+  body_rotate_z(args.state.cube, 0.7 * args.state.angle)
 
 
   ## 2. RENDERING :
@@ -89,24 +97,26 @@ def tick(args)
                   args.state.camera,
                   args.state.scene
 
-  puts 'Rendering frame... '
-  cube_sprites = get_body_sprites(args.state.cube)
-  8.times do |i|
-    #print_sprite(cube_sprites[i], 4)
-    puts sprite_get_draw_x(cube_sprites[i])
-    #args.outputs.sprites << { x:    sprite.draw_x,
-    #                          y:    sprite.draw_y,
-    #                          w:    sprite.draw_width,
-    #                          h:    sprite.draw_height,
-    #                          path: sprite.atlas_file,
-    #                          source_x: sprice.atlas_x,
-    #                          source_y: sprice.atlas_y,
-    #                          source_w: sprice.atlas_w,
-    #                          source_h: sprice.atlas_h }
+  if args.state.tick_count == 0 then
+    args.state.sorted_sprites = renderer_get_sorted_sprites(args.state.renderer)
   end
 
-  puts 'Done!'
+  #puts 'Rendering frame... '
+  7.downto(0) do |i|
+    #puts "#{i} -> #{sprite_get_atlas_file(rendered_sprites[i])}"
+    #puts "#{i} -> #{sprite_get_draw_x(rendered_sprites[i])}"
+    args.outputs.sprites << { x:        sprite_get_draw_x(args.state.sorted_sprites[i]),
+                              y:        sprite_get_draw_y(args.state.sorted_sprites[i]),
+                              w:        sprite_get_draw_w(args.state.sorted_sprites[i]),
+                              h:        sprite_get_draw_h(args.state.sorted_sprites[i]),
+                              path:     'data/sprites/spheres_all.png',#sprite_get_atlas_file(rendered_sprites[i]),
+                              source_x: sprite_get_atlas_x(args.state.sorted_sprites[i]),
+                              source_y: sprite_get_atlas_y(args.state.sorted_sprites[i]),
+                              source_w: sprite_get_atlas_w(args.state.sorted_sprites[i]),
+                              source_h: sprite_get_atlas_h(args.state.sorted_sprites[i]) }
+  end
+  #puts 'Done!'
 
   # DEBUG :
-  #args.outputs.labels << [10, 700, "FPS: #{args.gtk.current_framerate.to_s.to_i}", 0, 0, 0, 255]
+  args.outputs.labels << [10, 700, "FPS: #{args.gtk.current_framerate.to_s.to_i}", 0, 0, 0, 255]
 end

@@ -101,19 +101,24 @@ end
 
 
 ### SCENE :
-#Scene* bridge_new_scene(void);
 def new_scene()
   FFI::Sprite3D_C::bridge_new_scene()
 end
 
-#void   bridge_scene_push_element(Scene* s,Body* b);
 def scene_push_element(s,b)
   FFI::Sprite3D_C::bridge_scene_push_element(s, b)
 end
 
-#void   bridge_print_scene(Scene* s,int indent);
 def print_scene(s,indent)
   FFI::Sprite3D_C::bridge_print_scene(s,indent)
+end
+
+def scene_get_element_count(s)
+  FFI::Sprite3D_C::bridge_scene_get_element_count(s)
+end
+
+def scene_get_sprite_count(s)
+  FFI::Sprite3D_C::bridge_scene_get_sprite_count(s)
 end
 
 
@@ -170,8 +175,8 @@ end
 
 
 ### RENDERER :
-def new_renderer(width,height,near,far)
-  FFI::Sprite3D_C::bridge_new_renderer(width, height, near, far)
+def new_renderer(width,height,near,far,max_sprites)
+  FFI::Sprite3D_C::bridge_new_renderer(width, height, near, far, max_sprites)
 end
 
 def renderer_scene(r,c,s)
@@ -180,4 +185,8 @@ end
 
 def print_renderer(renderer)
   FFI::Sprite3D_C::bridge_print_renderer(renderer)
+end
+
+def renderer_get_sorted_sprites(renderer)
+  FFI::Sprite3D_C::bridge_renderer_get_sorted_sprites(renderer)
 end
