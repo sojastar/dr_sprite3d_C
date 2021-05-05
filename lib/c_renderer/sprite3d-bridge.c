@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "sprite3d-bridge.h"
 #include "sprite.h"
 #include "body.h"
@@ -21,6 +22,42 @@ void bridge_sprite_rotate(Sprite* s,float da) {
 
 void bridge_sprite_rotate_absolute(Sprite* s,float a) {
   sprite_rotate_absolute(s, a);
+}
+
+uint16_t bridge_sprite_get_draw_x(Sprite* s) {
+  return s->draw_x;
+}
+
+uint16_t bridge_sprite_get_draw_y(Sprite* s) {
+  return s->draw_y;
+}
+
+uint16_t bridge_sprite_get_draw_w(Sprite* s) {
+  return s->draw_width;
+}
+
+uint16_t bridge_sprite_get_draw_h(Sprite* s) {
+  return s->draw_height;
+}
+
+const char* bridge_sprite_get_atlas_file(Sprite* s) {
+  return s->atlas_file;
+}
+
+uint16_t bridge_sprite_get_atlas_x(Sprite* s) {
+  return s->atlas_x;
+}
+
+uint16_t bridge_sprite_get_atlas_y(Sprite* s) {
+  return s->atlas_y;
+}
+
+uint16_t bridge_sprite_get_atlas_w(Sprite* s) {
+  return s->atlas_w;
+}
+
+uint16_t bridge_sprite_get_atlas_h(Sprite* s) {
+  return s->atlas_h;
 }
 
 

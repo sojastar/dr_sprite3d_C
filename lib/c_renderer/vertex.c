@@ -10,6 +10,16 @@ Vertex* new_vertex(float x,float y,float z) {
   v->local[2]   = z;
   v->local[3]   = 1.0;
 
+  v->world[0]   = 0.0;
+  v->world[1]   = 0.0;
+  v->world[2]   = 0.0;
+  v->world[3]   = 1.0;
+
+  v->view[0]    = 0.0;
+  v->view[1]    = 0.0;
+  v->view[2]    = 0.0;
+  v->view[3]    = 1.0;
+
   v->processed  = UNPROCESSED;
 
   return v;

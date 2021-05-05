@@ -9,8 +9,8 @@ Sprite* new_sprite(Vertex* vertex,uint16_t width,uint16_t height,uint16_t scale,
   s->vertex       = vertex;
   s->width        = scale * width;
   s->height       = scale * height;
-  s->draw_x       = -1280;
-  s->draw_y       = -720;
+  s->draw_x       = 1280;
+  s->draw_y       = 720;
   s->draw_scale   = scale;
   s->draw_width   = scale * width;
   s->draw_height  = scale * height;
@@ -31,6 +31,8 @@ void free_sprite(Sprite* s) {
 }
 
 void print_sprite(Sprite* s,int indent) {
+  printf("%*s--- Sprite : ---\n", indent, "");
+  printf("%*slocal position:  (%.3f;%.3f;%.3f)\n", indent, "", s->vertex->local[0], s->vertex->local[1], s->vertex->local[2]);
   printf("%*sworld position:  (%.3f;%.3f;%.3f)\n", indent, "", s->vertex->world[0], s->vertex->world[1], s->vertex->world[2]);
   printf("%*sview position:   (%.3f;%.3f;%.3f)\n", indent, "", s->vertex->view[0], s->vertex->view[1], s->vertex->view[2]);
   printf("%*sdraw x and y:    (%hu;%hu)\n", indent, "", s->draw_x, s->draw_y);
