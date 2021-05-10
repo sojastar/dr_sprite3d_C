@@ -176,6 +176,7 @@ end
 
 ### RENDERER :
 def new_renderer(width,height,near,far,max_sprites)
+  puts "in new_renderer: #{max_sprites}"
   FFI::Sprite3D_C::bridge_new_renderer(width, height, near, far, max_sprites)
 end
 
@@ -189,4 +190,8 @@ end
 
 def renderer_get_sorted_sprites(renderer)
   FFI::Sprite3D_C::bridge_renderer_get_sorted_sprites(renderer)
+end
+
+def renderer_get_sorted_sprites_count(renderer)
+  FFI::Sprite3D_C::bridge_renderer_get_sorted_sprites_count(renderer)
 end

@@ -65,3 +65,4 @@ extern Renderer*  bridge_new_renderer(int width,int height,float near,float far,
 extern void       bridge_print_renderer(Renderer* r);
 extern void       bridge_render_scene(Renderer* r,SCamera* c,Scene* s);
 extern Sprite**   bridge_renderer_get_sorted_sprites(Renderer* r);
+extern int        bridge_renderer_get_sorted_sprites_count(Renderer* r);

@@ -7,6 +7,8 @@
 Renderer* new_renderer(uint16_t width,uint16_t height,float near, float far,size_t max_sprites) {
   Renderer* renderer = (Renderer *)malloc(sizeof(Renderer));
 
+  printf("in new_renderer: renderer=%p\n", renderer);
+
   renderer->width               = width;
   renderer->height              = height;
   renderer->half_width          = width >> 1;
@@ -16,6 +18,11 @@ Renderer* new_renderer(uint16_t width,uint16_t height,float near, float far,size
   renderer->far                 = far;
   renderer->in_frustum_sprites  = (Sprite**)malloc(max_sprites * sizeof(Sprite*));
   renderer->sorted_sprites      = (Sprite**)malloc(max_sprites * sizeof(Sprite*));
+
+  printf( "in new_renderer: max_sprites=%zu - in_frustum_sprites=%p - sorted_sprites=%p\n",
+          max_sprites,
+          renderer->in_frustum_sprites,
+          renderer->sorted_sprites );
 
   return renderer;
 }

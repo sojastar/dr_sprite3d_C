@@ -23,23 +23,14 @@ SPRITE_SCALE  = 80
 # ---=== SETUP : ===---
 def setup(args)
   # Scene :
-  sprites = [ new_sprite(-1.0,-1.0,-1.0, 16, 16, 80, 'data/sprites/spheres_all.png',  0, 0, 16, 16),
-              new_sprite( 1.0,-1.0,-1.0, 16, 16, 80, 'data/sprites/spheres_all.png', 16, 0, 16, 16),
-              new_sprite( 1.0, 1.0,-1.0, 16, 16, 80, 'data/sprites/spheres_all.png', 32, 0, 16, 16),
-              new_sprite(-1.0, 1.0,-1.0, 16, 16, 80, 'data/sprites/spheres_all.png', 48, 0, 16, 16),
-              new_sprite(-1.0,-1.0, 1.0, 16, 16, 80, 'data/sprites/spheres_all.png',  0, 0, 16, 16),
-              new_sprite( 1.0,-1.0, 1.0, 16, 16, 80, 'data/sprites/spheres_all.png',  0, 0, 16, 16),
-              new_sprite( 1.0, 1.0, 1.0, 16, 16, 80, 'data/sprites/spheres_all.png',  0, 0, 16, 16),
-              new_sprite(-1.0, 1.0, 1.0, 16, 16, 80, 'data/sprites/spheres_all.png',  0, 0, 16, 16) ]
-
-  args.state.cube     = new_empty_body(8)
+  cube_sprites        = make_cube(18)
+  args.state.cube     = new_empty_body(cube_sprites.length)
   cube_sprite_array   = get_body_sprites(args.state.cube)
-  sprites.each.with_index { |s,i| cube_sprite_array[i] = s }
-  body_move_to(args.state.cube, 0.0, 0.0, -30.0)
+  cube_sprites.each.with_index { |s,i| cube_sprite_array[i] = s }
+  body_move_to(args.state.cube, 0.0, 0.0, -75.0)
 
   args.state.scene    = new_scene
   args.state.scene.scene_push_element args.state.scene, args.state.cube
-  #print_scene args.state.scene, 0
 
   scene_sprite_count  = scene_get_sprite_count(args.state.scene)
 
@@ -48,27 +39,26 @@ def setup(args)
   args.state.camera       = new_camera( 0.0, 0.0, 0.0,    # position
                                         0.0, 0.0,-1.0,    # forward
                                         0.0, 1.0, 0.0 )   # up
-  #print_camera args.state.camera
   
 
   # Renderer :
   args.state.renderer     = new_renderer( 1280, 720,    # viewport size
                                           1.0, 300.0,   # near and far planes
                                           scene_sprite_count )
-  #print_renderer  args.state.renderer
 
   sorted_sprites          = renderer_get_sorted_sprites(args.state.renderer)
 
   scene_sprite_count.times do |i|
-    args.outputs.static_sprites << Sprite3D.new(sorted_sprites, scene_sprite_count - i - 1)
+    args.outputs.static_sprites << Sprite3D.new(args.state.renderer, scene_sprite_count - i - 1)
   end
 
 
   # Miscellenaous :
-  args.state.angle        = 0.05
+  args.state.angle        = 0.03
 
 
   args.state.setup_done = true
+  puts "Setup done!!!"
 end
 
 
@@ -97,13 +87,51 @@ def tick(args)
   args.outputs.solids << [0, 306, 1280, 719, 180, 180, 231]
 
   # Sprites :
-  print 'C side render... '
   renderer_scene  args.state.renderer,
                   args.state.camera,
                   args.state.scene
-  puts 'Done!!!'
 
 
   # DEBUG :
   args.outputs.labels << [10, 700, "FPS: #{args.gtk.current_framerate.to_s.to_i}", 0, 0, 0, 255]
+end
+
+def new_cube_sprite(x,y,z,color)
+  color_offset  = case color
+                  when :blue  then 0
+                  when :green then 16
+                  when :red   then 32
+                  end
+
+  new_sprite(x.to_f,y.to_f,z.to_f, 16, 16, 80, 'data/sprites/spheres_all.png', color_offset, 0, 16, 16)
+end
+
+def make_cube(size=10)
+  cube_sprites = []
+
+  # Blue balls :
+  size.times do |i|
+    size.times do |j|
+      cube_sprites << new_cube_sprite(2*i - size + 1, 2*j - size + 1, -1.0 - size, :blue)
+      cube_sprites << new_cube_sprite(2*i - size + 1, 2*j - size + 1,  1.0 + size, :blue)
+    end
+  end
+
+  # Green balls :
+  size.times do |i|
+    size.times do |j|
+      cube_sprites << new_cube_sprite(-1.0 - size, 2*i - size + 1, 2*j - size + 1, :green)
+      cube_sprites << new_cube_sprite( 1.0 + size, 2*i - size + 1, 2*j - size + 1, :green)
+    end
+  end
+
+  # Red balls :
+  size.times do |i|
+    size.times do |j|
+      cube_sprites << new_cube_sprite( 2*i - size + 1, -1.0 - size, 2*j - size + 1, :red)
+      cube_sprites << new_cube_sprite( 2*i - size + 1,  1.0 + size, 2*j - size + 1, :red)
+    end
+  end
+
+  cube_sprites
 end

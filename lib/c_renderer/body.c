@@ -9,13 +9,9 @@ Body* new_empty_body(size_t sprite_count) {
   Body* b = (Body *)malloc(sizeof(Body));
 
   body_reset_rotation(b);
-  /*b->world[0][0]  = 1.0; b->world[0][1] = 0.0; b->world[0][2] = 0.0; b->world[0][3] = 0.0;
-  b->world[1][0]  = 0.0; b->world[1][1] = 1.0; b->world[1][2] = 0.0; b->world[1][3] = 0.0;
-  b->world[2][0]  = 0.0; b->world[2][1] = 0.0; b->world[2][2] = 1.0; b->world[2][3] = 0.0;
-  b->world[3][0]  = 0.0; b->world[3][1] = 0.0; b->world[3][2] = 0.0; b->world[3][3] = 1.0;*/
 
   b->sprite_count = sprite_count;
-  b->sprites      = (Sprite**)malloc(sizeof(Sprite*));
+  b->sprites      = (Sprite**)malloc(sprite_count * sizeof(Sprite*));
 
   return b;
 }
@@ -24,10 +20,6 @@ Body* new_body(size_t sprite_count,Sprite** sprites) {
   Body* b = (Body *)malloc(sizeof(Body));
 
   body_reset_rotation(b);
-  /*b->world[0][0] = 1.0; b->world[0][1] = 0.0; b->world[0][2] = 0.0; b->world[0][3] = 0.0;
-  b->world[1][0] = 0.0; b->world[1][1] = 1.0; b->world[1][2] = 0.0; b->world[1][3] = 0.0;
-  b->world[2][0] = 0.0; b->world[2][1] = 0.0; b->world[2][2] = 1.0; b->world[2][3] = 0.0;
-  b->world[3][0] = 0.0; b->world[3][1] = 0.0; b->world[3][2] = 0.0; b->world[3][3] = 1.0;*/
 
   b->sprite_count  = sprite_count;
   b->sprites = sprites;

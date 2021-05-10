@@ -2,9 +2,12 @@ class Sprite3D
   attr_reader :index
   attr_sprite
 
-  def initialize(c_sprites,index)
-    @c_sprites  = c_sprites
+  #def initialize(c_sprites,index)
+  def initialize(renderer,index)
+    @renderer   = renderer
+    @c_sprites  = renderer_get_sorted_sprites(renderer)
     @index      = index
+    #puts "sprite index: #{@index} - renderer pointer: #{@renderer} - c_sprites:#{@c_sprites}"
   end
 
   def sprite
@@ -12,6 +15,7 @@ class Sprite3D
   end
 
   def draw_override(ffi_draw)
+    #puts "sprite index: #{@index} - renderer pointer: #{@renderer.value} - c_sprites:#{@c_sprites.value}"
     ffi_draw.draw_sprite_3( sprite_get_draw_x(@c_sprites[@index]),
                             sprite_get_draw_y(@c_sprites[@index]),
                             sprite_get_draw_w(@c_sprites[@index]),
