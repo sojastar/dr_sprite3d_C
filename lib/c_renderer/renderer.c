@@ -40,7 +40,7 @@ void print_renderer(Renderer *renderer) {
   printf("- near plane:     %f\n", renderer->near);
 }
 
-bool vertex_in_frustum(Renderer* renderer,Vertex* vertex) {
+bool is_vertex_in_frustum(Renderer* renderer,Vertex* vertex) {
   float x = vertex->view[0];
   float y = vertex->view[1];
   float z = vertex->view[2];
@@ -54,7 +54,7 @@ bool vertex_in_frustum(Renderer* renderer,Vertex* vertex) {
 void project_vertex(Renderer* renderer,SCamera* camera,Vertex* vertex) {
   compute_view_coordinates(vertex, camera->view_matrix);
 
-  if (vertex_in_frustum(renderer, vertex)) {
+  if (is_vertex_in_frustum(renderer, vertex)) {
     vertex->screen_x   = renderer->half_width  + (int)(                  renderer->half_width * vertex->view[0] / vertex->view[2]);
     //vertex->screen_y   = renderer->half_height + (int)(renderer->ratio * renderer->half_width * vertex->view[1] / vertex->view[2]);
     vertex->screen_y   = renderer->half_height + (int)( renderer->half_width * vertex->view[1] / vertex->view[2]);
@@ -93,4 +93,12 @@ void render_scene(Renderer* renderer,SCamera* camera,Scene* scene) {
   
   counting_sort(renderer->in_frustum_sprites_count, renderer->in_frustum_sprites, renderer->sorted_sprites);
   //radix_sort(renderer->in_frustum_sprites_count, renderer->in_frustum_sprites, renderer->sorted_sprites);
+}
+
+size_t sprites_in_frustum_count(Renderer* renderer) {
+  return renderer->in_frustum_sprites_count;
+}
+
+size_t sorted_sprites_count(Renderer* renderer) {
+  return renderer->in_frustum_sprites_count;
 }

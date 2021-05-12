@@ -34,7 +34,7 @@ void print_scene(Scene* s,int indent) {
   Element* current;
   Element* next;
   
-  printf("%*s-== Scene : ==-\n", indent, "");
+  printf("%*s--= Scene : =--\n", indent, "");
 
   current = s->first;
   while(current != (void*)0) {

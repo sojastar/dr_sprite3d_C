@@ -224,26 +224,25 @@ void bridge_camera_move_up(SCamera* camera,float speed) {
 /* ---=== RENDERER : ===--- */
 DRB_FFI
 Renderer* bridge_new_renderer(int width,int height,float near,float far,int max_sprites) {
-  printf("in bridge_new_renderer: (int)max_sprites=%d - (size_t)max_sprites=%zu\n", max_sprites, (size_t)max_sprites);
   return new_renderer((uint16_t)width, (uint16_t)height, near, far, (size_t)max_sprites);
 }
 
 DRB_FFI
-void bridge_print_renderer(Renderer* r) {
-  print_renderer(r);
+void bridge_print_renderer(Renderer* renderer) {
+  print_renderer(renderer);
 }
 
 DRB_FFI
-void bridge_render_scene(Renderer* r,SCamera* c,Scene* s) {
-  render_scene(r, c, s);
+void bridge_render_scene(Renderer* renderer,SCamera* camera,Scene* scene) {
+  render_scene(renderer, camera, scene);
 }
 
 DRB_FFI
-Sprite** bridge_renderer_get_sorted_sprites(Renderer* r) {
-  return r->sorted_sprites;
+Sprite** bridge_renderer_get_sorted_sprites(Renderer* renderer) {
+  return renderer->sorted_sprites;
 }
 
 DRB_FFI
-int bridge_renderer_get_sorted_sprites_count(Renderer* r) {
-  return (int)r->in_frustum_sprites_count;
+int bridge_renderer_get_sorted_sprites_count(Renderer* renderer) {
+  return (int)sorted_sprites_count(renderer);
 }

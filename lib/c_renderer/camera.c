@@ -53,7 +53,7 @@ void free_camera(SCamera* camera) {
 }
 
 void print_camera(SCamera* camera) {
-  printf("- Camera :\n");
+  printf("-== Camera : ==-\n");
   printf("-- position: (%.2f,%.2f,%.2f,%.2f)\n", camera->position[0], camera->position[1], camera->position[2], camera->position[3]);
   printf("-- forward:  (%.2f,%.2f,%.2f,%.2f)\n", camera->forward[0],  camera->forward[1],  camera->forward[2],  camera->forward[3]);
   printf("-- right:    (%.2f,%.2f,%.2f,%.2f)\n", camera->right[0],    camera->right[1],    camera->right[2],    camera->right[3]);

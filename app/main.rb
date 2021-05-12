@@ -1,20 +1,4 @@
 require 'lib/sprite3d_bridge.rb'
-#require 'lib/constants3d.rb'
-#require 'lib/vector3d.rb'
-#require 'lib/matrix3d.rb'
-#require 'lib/vertex3d.rb'
-#require 'lib/body3d.rb'
-#require 'lib/camera3d.rb'
-#require 'lib/render3d.rb'
-require 'lib/sprite3d.rb'
-#require 'lib/scene3d.rb'
-
-
-
-
-
-# ---=== CONSTANTS : ===---
-SPRITE_SCALE  = 80 
 
 
 
@@ -23,38 +7,29 @@ SPRITE_SCALE  = 80
 # ---=== SETUP : ===---
 def setup(args)
   # Scene :
-  cube_sprites        = make_cube(18)
-  args.state.cube     = new_empty_body(cube_sprites.length)
-  cube_sprite_array   = get_body_sprites(args.state.cube)
-  cube_sprites.each.with_index { |s,i| cube_sprite_array[i] = s }
-  body_move_to(args.state.cube, 0.0, 0.0, -75.0)
+  cube_sprites          = make_cube(18)
+  args.state.cube       = Engine3D::Body.new cube_sprites
+  args.state.cube.move_to 0.0, 0.0, -75.0
 
-  args.state.scene    = new_scene
-  args.state.scene.scene_push_element args.state.scene, args.state.cube
-
-  scene_sprite_count  = scene_get_sprite_count(args.state.scene)
+  args.state.scene      = Engine3D::Scene.new
+  args.state.scene << args.state.cube
 
 
   # Camera
-  args.state.camera       = new_camera( 0.0, 0.0, 0.0,    # position
-                                        0.0, 0.0,-1.0,    # forward
-                                        0.0, 1.0, 0.0 )   # up
+  args.state.camera     = Engine3D::Camera.new  0.0, 0.0, 0.0,  # position
+                                                0.0, 0.0,-1.0,  # forward
+                                                0.0, 1.0, 0.0   # up
   
 
   # Renderer :
-  args.state.renderer     = new_renderer( 1280, 720,    # viewport size
-                                          1.0, 300.0,   # near and far planes
-                                          scene_sprite_count )
-
-  sorted_sprites          = renderer_get_sorted_sprites(args.state.renderer)
-
-  scene_sprite_count.times do |i|
-    args.outputs.static_sprites << Sprite3D.new(args.state.renderer, scene_sprite_count - i - 1)
-  end
+  args.state.renderer   =  Engine3D::Renderer.new args,
+                                                  1280, 720,  # viewport size
+                                                  1.0, 300.0, # near and far plans
+                                                  args.state.scene.sprite_count
 
 
   # Miscellenaous :
-  args.state.angle        = 0.03
+  args.state.angle      = 0.03
 
 
   args.state.setup_done = true
@@ -75,9 +50,9 @@ def tick(args)
   # MAIN LOOP :
   
   # 1. GAME LOGIC :
-  body_rotate_x(args.state.cube,       args.state.angle)
-  body_rotate_y(args.state.cube, 0.3 * args.state.angle)
-  body_rotate_z(args.state.cube, 0.7 * args.state.angle)
+  args.state.cube.rotate_x(       args.state.angle )
+  args.state.cube.rotate_y( 0.3 * args.state.angle )
+  args.state.cube.rotate_z( 0.7 * args.state.angle )
 
 
   ## 2. RENDERING :
@@ -87,9 +62,8 @@ def tick(args)
   args.outputs.solids << [0, 306, 1280, 719, 180, 180, 231]
 
   # Sprites :
-  renderer_scene  args.state.renderer,
-                  args.state.camera,
-                  args.state.scene
+  args.state.renderer.render_scene  args.state.camera,
+                                    args.state.scene
 
 
   # DEBUG :
@@ -103,7 +77,7 @@ def new_cube_sprite(x,y,z,color)
                   when :red   then 32
                   end
 
-  new_sprite(x.to_f,y.to_f,z.to_f, 16, 16, 80, 'data/sprites/spheres_all.png', color_offset, 0, 16, 16)
+  Engine3D::new_sprite(x.to_f,y.to_f,z.to_f, 16, 16, 80, 'data/sprites/spheres_all.png', color_offset, 0, 16, 16)
 end
 
 def make_cube(size=10)
