@@ -111,27 +111,22 @@ module Engine3D
     def rotate_x(angle)
       FFI::Sprite3D_C::bridge_camera_rotate_x(@c_camera, angle)
     end
-    # unstested
 
     def rotate_y(angle)
       FFI::Sprite3D_C::bridge_camera_rotate_y(@c_camera, angle)
     end
-    # unstested
     
     def rotate_z(angle)
       FFI::Sprite3D_C::bridge_camera_rotate_z(@c_camera, angle)
     end
-    # unstested
     
     def move_forward(speed)
       FFI::Sprite3D_C::bridge_camera_move_forward(@c_camera, speed)
     end
-    # unstested
     
     def move_right(speed)
       FFI::Sprite3D_C::bridge_camera_move_right(@c_camera, speed)
     end
-    # unstested
     
     def move_up(speed)
       FFI::Sprite3D_C::bridge_camera_move_up(@c_camera, speed)

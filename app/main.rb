@@ -10,7 +10,6 @@ def setup(args)
   cube_sprites          = make_cube(18)
   args.state.cube       = Engine3D::Body.new cube_sprites
   args.state.cube.move_to 0.0, 0.0, -75.0
-  args.state.cube.print 5
 
   args.state.scene      = Engine3D::Scene.new
   args.state.scene << args.state.cube
@@ -30,8 +29,9 @@ def setup(args)
 
 
   # Miscellenaous :
-  args.state.angle      = 0.03
-
+  args.state.cube_rotation_speed      = 0.03
+  args.state.camera_rotation_speed    = 0.01
+  args.state.camera_translation_speed = 0.3
 
   args.state.setup_done = true
   puts "Setup done!!!"
@@ -51,11 +51,29 @@ def tick(args)
   # MAIN LOOP :
   
   # 1. GAME LOGIC :
+  
+  # 1.1 Rotate the cube :
   args.state.cube.reset_rotation
   args.state.cube.rotate_x(       args.state.angle )
   args.state.cube.rotate_y( 0.3 * args.state.angle )
   args.state.cube.rotate_z( 0.7 * args.state.angle )
   args.state.angle += 0.03
+
+  # 1.2 Moving the camera :
+
+  # Rotation :
+  args.state.camera.rotate_z( args.state.camera_rotation_speed) if args.inputs.keyboard.key_held.q
+  args.state.camera.rotate_z(-args.state.camera_rotation_speed) if args.inputs.keyboard.key_held.e
+  args.state.camera.rotate_x( args.state.camera_rotation_speed) if args.inputs.keyboard.key_held.w
+  args.state.camera.rotate_x(-args.state.camera_rotation_speed) if args.inputs.keyboard.key_held.s
+  args.state.camera.rotate_y( args.state.camera_rotation_speed) if args.inputs.keyboard.key_held.a
+  args.state.camera.rotate_y(-args.state.camera_rotation_speed) if args.inputs.keyboard.key_held.d
+
+  # Translation :
+  args.state.camera.move_forward(-args.state.camera_translation_speed) if args.inputs.keyboard.key_held.up
+  args.state.camera.move_forward( args.state.camera_translation_speed) if args.inputs.keyboard.key_held.down
+  args.state.camera.move_right(-args.state.camera_translation_speed) if args.inputs.keyboard.key_held.left
+  args.state.camera.move_right( args.state.camera_translation_speed) if args.inputs.keyboard.key_held.right
 
 
   ## 2. RENDERING :
