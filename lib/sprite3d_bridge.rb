@@ -42,20 +42,17 @@ module Engine3D
     def rotate_x(angle)
       FFI::Sprite3D_C::bridge_body_rotate_x(@c_body, angle)
     end
-    # untested
     
     def rotate_y(angle)
       FFI::Sprite3D_C::bridge_body_rotate_y(@c_body, angle)
     end
-    # untested
     
     def rotate_z(angle)
       FFI::Sprite3D_C::bridge_body_rotate_z(@c_body, angle)
     end
-    # untested
     
     def reset_rotation
-      FFI::sprite3d_c::bridge_body_reset_rotation(@c_body)
+      FFI::Sprite3D_C::bridge_body_reset_rotation(@c_body)
     end
     # untested
   end

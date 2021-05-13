@@ -30,6 +30,9 @@ extern void     bridge_body_translate(Body* b,float dx,float dy,float dz);
 extern void     bridge_body_rotate_x(Body* b,float a);
 extern void     bridge_body_rotate_y(Body* b,float a);
 extern void     bridge_body_rotate_z(Body* b,float a);
+//extern void     bridge_body_rotate_x_absolute(Body* b,float a);
+//extern void     bridge_body_rotate_y_absolute(Body* b,float a);
+//extern void     bridge_body_rotate_z_absolute(Body* b,float a);
 extern void     bridge_body_reset_rotation(Body* b);
 
 

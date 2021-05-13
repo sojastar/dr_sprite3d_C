@@ -121,6 +121,21 @@ void bridge_body_rotate_z(Body* b,float a) {
   body_rotate_z(b, a);
 }
 
+/*DRB_FFI
+void bridge_body_rotate_x_absolute(Body* b,float a) {
+  body_rotate_x_absolute(b, a);
+}
+
+DRB_FFI
+void bridge_body_rotate_y_absolute(Body* b,float a) {
+  body_rotate_y_absolute(b, a);
+}
+
+DRB_FFI
+void bridge_body_rotate_z_absolute(Body* b,float a) {
+  body_rotate_z_absolute(b, a);
+}*/
+
 DRB_FFI
 void bridge_body_reset_rotation(Body* b) {
   body_reset_rotation(b);

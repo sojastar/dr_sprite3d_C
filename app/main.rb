@@ -10,6 +10,7 @@ def setup(args)
   cube_sprites          = make_cube(18)
   args.state.cube       = Engine3D::Body.new cube_sprites
   args.state.cube.move_to 0.0, 0.0, -75.0
+  args.state.cube.print 5
 
   args.state.scene      = Engine3D::Scene.new
   args.state.scene << args.state.cube
@@ -50,9 +51,11 @@ def tick(args)
   # MAIN LOOP :
   
   # 1. GAME LOGIC :
+  args.state.cube.reset_rotation
   args.state.cube.rotate_x(       args.state.angle )
   args.state.cube.rotate_y( 0.3 * args.state.angle )
   args.state.cube.rotate_z( 0.7 * args.state.angle )
+  args.state.angle += 0.03
 
 
   ## 2. RENDERING :
