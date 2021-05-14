@@ -12,6 +12,7 @@ extern int    bridge_sprite_get_draw_x(Sprite* s);
 extern int    bridge_sprite_get_draw_y(Sprite* s);
 extern int    bridge_sprite_get_draw_w(Sprite* s);
 extern int    bridge_sprite_get_draw_h(Sprite* s);
+extern float  bridge_sprite_get_angle(Sprite* s);
 extern int    bridge_sprite_get_atlas_file_index(Sprite* s);
 extern int    bridge_sprite_get_atlas_x(Sprite* s);
 extern int    bridge_sprite_get_atlas_y(Sprite* s);

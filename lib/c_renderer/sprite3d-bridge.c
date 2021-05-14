@@ -52,9 +52,12 @@ int bridge_sprite_get_draw_h(Sprite* s) {
 }
 
 DRB_FFI
-//const char* bridge_sprite_get_atlas_file(Sprite* s) {
+float bridge_sprite_get_angle(Sprite* s) {
+  return s->angle;
+}
+
+DRB_FFI
 int bridge_sprite_get_atlas_file_index(Sprite* s) {
-  //return s->atlas_file;
   return (int)s->atlas_file_index;
 }
 

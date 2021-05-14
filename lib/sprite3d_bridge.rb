@@ -148,7 +148,6 @@ module Engine3D
       @atlases    = atlases
 
       max_sprites.times do |i|
-        #args.outputs.static_sprites << Engine3D::RenderSprite.new(@c_renderer, max_sprites - i - 1)
         args.outputs.static_sprites << Engine3D::RenderSprite.new(self, max_sprites - i - 1)
       end
     end
@@ -192,7 +191,8 @@ module Engine3D
                               FFI::Sprite3D_C::bridge_sprite_get_draw_w(@c_sprites[@index]),
                               FFI::Sprite3D_C::bridge_sprite_get_draw_h(@c_sprites[@index]),
                               @atlases[FFI::Sprite3D_C::bridge_sprite_get_atlas_file_index(@c_sprites[@index])],
-                              0.0,  # angle !!! Make an accessor in the bridge
+                              #0.0,  # angle !!! Make an accessor in the bridge
+                              FFI::Sprite3D_C::bridge_sprite_get_angle(@c_sprites[@index]),  # angle !!! Make an accessor in the bridge
                               255, 255, 255, 255, 
                               false, false,
                               nil, nil, nil, nil,
