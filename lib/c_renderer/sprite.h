@@ -14,7 +14,7 @@ typedef struct Sprite {
   uint16_t    draw_width;
   uint16_t    draw_height;
   float       angle;
-  const char* atlas_file;
+  uint16_t    atlas_file_index;
   uint16_t    atlas_x;
   uint16_t    atlas_y;
   uint16_t    atlas_w;
@@ -22,7 +22,7 @@ typedef struct Sprite {
 } Sprite;
 #endif
 
-Sprite* new_sprite(Vertex* v,uint16_t width,uint16_t height,uint16_t scale,const char* file,uint16_t atlas_x,uint16_t atlas_y,uint16_t atlas_w,uint16_t atlas_h);
+Sprite* new_sprite(Vertex* v,uint16_t width,uint16_t height,uint16_t scale,uint16_t file_index,uint16_t atlas_x,uint16_t atlas_y,uint16_t atlas_w,uint16_t atlas_h);
 void    free_sprite(Sprite* s);
 void    print_sprite(Sprite* s,int indent);
 void    sprite_compute_draw_size(Sprite* s);

@@ -11,9 +11,9 @@
 
 /* ---=== SPRITE : ====--- */
 DRB_FFI
-Sprite*  bridge_new_sprite(float x, float y, float z,int width,int height,int scale,const char* file,int atlas_x,int atlas_y,int atlas_w,int atlas_h) {
+Sprite* bridge_new_sprite(float x, float y, float z,int width,int height,int scale,int file_index,int atlas_x,int atlas_y,int atlas_w,int atlas_h) {
   Vertex* vertex  = new_vertex(x, y, z);
-  return new_sprite(vertex, (uint16_t)width, (uint16_t)height, (uint16_t)scale, file, (uint16_t)atlas_x, (uint16_t)atlas_y, (uint16_t)atlas_w, (uint16_t)atlas_h);
+  return new_sprite(vertex, (uint16_t)width, (uint16_t)height, (uint16_t)scale, (uint16_t)file_index, (uint16_t)atlas_x, (uint16_t)atlas_y, (uint16_t)atlas_w, (uint16_t)atlas_h);
 }
 
 DRB_FFI
@@ -52,8 +52,10 @@ int bridge_sprite_get_draw_h(Sprite* s) {
 }
 
 DRB_FFI
-const char* bridge_sprite_get_atlas_file(Sprite* s) {
-  return s->atlas_file;
+//const char* bridge_sprite_get_atlas_file(Sprite* s) {
+int bridge_sprite_get_atlas_file_index(Sprite* s) {
+  //return s->atlas_file;
+  return (int)s->atlas_file_index;
 }
 
 DRB_FFI
@@ -120,21 +122,6 @@ DRB_FFI
 void bridge_body_rotate_z(Body* b,float a) {
   body_rotate_z(b, a);
 }
-
-/*DRB_FFI
-void bridge_body_rotate_x_absolute(Body* b,float a) {
-  body_rotate_x_absolute(b, a);
-}
-
-DRB_FFI
-void bridge_body_rotate_y_absolute(Body* b,float a) {
-  body_rotate_y_absolute(b, a);
-}
-
-DRB_FFI
-void bridge_body_rotate_z_absolute(Body* b,float a) {
-  body_rotate_z_absolute(b, a);
-}*/
 
 DRB_FFI
 void bridge_body_reset_rotation(Body* b) {

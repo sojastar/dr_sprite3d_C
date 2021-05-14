@@ -3,24 +3,24 @@
 #include <math.h>
 #include "sprite.h"
 
-Sprite* new_sprite(Vertex* vertex,uint16_t width,uint16_t height,uint16_t scale,const char* file,uint16_t atlas_x,uint16_t atlas_y,uint16_t atlas_w,uint16_t atlas_h) {
+Sprite* new_sprite(Vertex* vertex,uint16_t width,uint16_t height,uint16_t scale,uint16_t file_index,uint16_t atlas_x,uint16_t atlas_y,uint16_t atlas_w,uint16_t atlas_h) {
   Sprite *s = (Sprite *)malloc(sizeof(Sprite));
 
-  s->vertex       = vertex;
-  s->width        = scale * width;
-  s->height       = scale * height;
-  s->draw_x       = 1280;
-  s->draw_y       = 720;
-  s->draw_scale   = scale;
-  s->draw_width   = scale * width;
-  s->draw_height  = scale * height;
-  s->angle        = 0.0;
-  s->atlas_file   = file;
-  s->atlas_x      = atlas_x;
-  s->atlas_y      = atlas_y;
-  s->atlas_w      = atlas_w;
-  s->atlas_h      = atlas_h;
-  s->scale        = scale;
+  s->vertex           = vertex;
+  s->width            = scale * width;
+  s->height           = scale * height;
+  s->draw_x           = 1280;
+  s->draw_y           = 720;
+  s->draw_scale       = scale;
+  s->draw_width       = scale * width;
+  s->draw_height      = scale * height;
+  s->angle            = 0.0;
+  s->atlas_file_index = file_index;
+  s->atlas_x          = atlas_x;
+  s->atlas_y          = atlas_y;
+  s->atlas_w          = atlas_w;
+  s->atlas_h          = atlas_h;
+  s->scale            = scale;
 
   return s;
 }
@@ -39,7 +39,7 @@ void print_sprite(Sprite* s,int indent) {
   printf("%*sdraw scale:      %.3f\n", indent, "", s->draw_scale);
   printf("%*sdraw width:      (%hu;%hu)\n", indent, "", s->draw_width, s->draw_height);
   printf("%*sangle:           %.3f\n", indent, "", s->angle);
-  printf("%*sfile:            %s\n", indent, "", s->atlas_file);
+  printf("%*sfile index:      %hu\n", indent, "", s->atlas_file_index);
   printf("%*satlas positon:   (%hu;%hu;%hu;%hu)\n", indent, "", s->atlas_x, s->atlas_y, s->atlas_w, s->atlas_h);
 }
 

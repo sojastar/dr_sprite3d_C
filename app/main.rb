@@ -8,6 +8,7 @@ require 'lib/sprite3d_bridge.rb'
 def setup(args)
   # Scene :
   cube_sprites          = make_cube(18)
+
   args.state.cube       = Engine3D::Body.new cube_sprites
   args.state.cube.move_to 0.0, 0.0, -75.0
 
@@ -25,7 +26,8 @@ def setup(args)
   args.state.renderer   =  Engine3D::Renderer.new args,
                                                   1280, 720,  # viewport size
                                                   1.0, 300.0, # near and far plans
-                                                  args.state.scene.sprite_count
+                                                  args.state.scene.sprite_count,
+                                                  ['data/sprites/spheres_all.png']
 
 
   # Miscellenaous :
@@ -98,7 +100,7 @@ def new_cube_sprite(x,y,z,color)
                   when :red   then 32
                   end
 
-  Engine3D::new_sprite(x.to_f,y.to_f,z.to_f, 16, 16, 80, 'data/sprites/spheres_all.png', color_offset, 0, 16, 16)
+  Engine3D::new_sprite(x.to_f,y.to_f,z.to_f, 16, 16, 80, 0, color_offset, 0, 16, 16)
 end
 
 def make_cube(size=10)

@@ -138,13 +138,18 @@ module Engine3D
 
   ### RENDERER :
   class Renderer
-    attr_reader :c_renderer
+    attr_reader :c_renderer,
+                :atlases
 
-    def initialize(args,width,height,near,far,max_sprites)
+    #def initialize(args,width,height,near,far,max_sprites)
+    def initialize(args,width,height,near,far,max_sprites,atlases)
       @c_renderer = FFI::Sprite3D_C::bridge_new_renderer(width, height, near, far, max_sprites)
 
+      @atlases    = atlases
+
       max_sprites.times do |i|
-        args.outputs.static_sprites << Engine3D::RenderSprite.new(@c_renderer, max_sprites - i - 1)
+        #args.outputs.static_sprites << Engine3D::RenderSprite.new(@c_renderer, max_sprites - i - 1)
+        args.outputs.static_sprites << Engine3D::RenderSprite.new(self, max_sprites - i - 1)
       end
     end
     
@@ -171,9 +176,9 @@ module Engine3D
     attr_reader :index
     attr_sprite
   
-    def initialize(c_renderer,index)
-      @c_renderer = c_renderer
-      @c_sprites  = FFI::Sprite3D_C::bridge_renderer_get_sorted_sprites(c_renderer)
+    def initialize(renderer,index)
+      @atlases    = renderer.atlases
+      @c_sprites  = FFI::Sprite3D_C::bridge_renderer_get_sorted_sprites(renderer.c_renderer)
       @index      = index
     end
   
@@ -186,7 +191,7 @@ module Engine3D
                               FFI::Sprite3D_C::bridge_sprite_get_draw_y(@c_sprites[@index]),
                               FFI::Sprite3D_C::bridge_sprite_get_draw_w(@c_sprites[@index]),
                               FFI::Sprite3D_C::bridge_sprite_get_draw_h(@c_sprites[@index]),
-                              'data/sprites/spheres_all.png',
+                              @atlases[FFI::Sprite3D_C::bridge_sprite_get_atlas_file_index(@c_sprites[@index])],
                               0.0,  # angle !!! Make an accessor in the bridge
                               255, 255, 255, 255, 
                               false, false,
