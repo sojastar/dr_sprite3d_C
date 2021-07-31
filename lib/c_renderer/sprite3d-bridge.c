@@ -3,11 +3,40 @@
 #include <stddef.h>
 #include "dragonruby.h"
 #include "sprite3d-bridge.h"
+#include "matrix.h"
+#include "vertex.h"
 #include "sprite.h"
 #include "body.h"
 #include "scene.h"
 #include "camera.h"
 #include "renderer.h"
+
+/* ---=== VERTEX : ====--- */
+DRB_FFI
+Vertex* bridge_new_vertex(float x,float y, float z) {
+  return new_vertex(x, y, z);
+}
+
+DRB_FFI
+void bridge_compute_world_coordinates(Vertex* v,Body* b) {
+  compute_world_coordinates(v, b->world);
+}
+
+DRB_FFI
+void bridge_compute_view_coordinates(Vertex* v,SCamera* c) {
+  matrix_vector_mul(c->view_matrix, v->world, v->view);
+  v->int_view_z = (uint16_t)v->view[2];
+  v->processed = VIEW_COORDS_CALCULATED;
+}
+
+DRB_FFI
+void bridge_vertex_reset(Vertex *v) {
+  vertex_reset(v);
+}
+
+
+
+
 
 /* ---=== SPRITE : ====--- */
 DRB_FFI
@@ -22,63 +51,20 @@ void bridge_print_sprite(Sprite* s,int indent) {
 }
 
 DRB_FFI
-void bridge_sprite_rotate(Sprite* s,float da) {
+//void bridge_sprite_rotate(Sprite* s,float da) {
+void bridge_sprite_rotate(Sprite* s,int da) {
   sprite_rotate(s, da);
 }
 
 DRB_FFI
-void bridge_sprite_rotate_absolute(Sprite* s,float a) {
+//void bridge_sprite_rotate_absolute(Sprite* s,float a) {
+void bridge_sprite_rotate_absolute(Sprite* s,int a) {
   sprite_rotate_absolute(s, a);
 }
 
 DRB_FFI
-int bridge_sprite_get_draw_x(Sprite* s) {
-  return (int)s->draw_x;
-}
-
-DRB_FFI
-int bridge_sprite_get_draw_y(Sprite* s) {
-  return (int)s->draw_y;
-}
-
-DRB_FFI
-int bridge_sprite_get_draw_w(Sprite* s) {
-  return (int)s->draw_width;
-}
-
-DRB_FFI
-int bridge_sprite_get_draw_h(Sprite* s) {
-  return (int)s->draw_height;
-}
-
-DRB_FFI
-float bridge_sprite_get_angle(Sprite* s) {
-  return s->angle;
-}
-
-DRB_FFI
-int bridge_sprite_get_atlas_file_index(Sprite* s) {
-  return (int)s->atlas_file_index;
-}
-
-DRB_FFI
-int bridge_sprite_get_atlas_x(Sprite* s) {
-  return (int)s->atlas_x;
-}
-
-DRB_FFI
-int bridge_sprite_get_atlas_y(Sprite* s) {
-  return (int)s->atlas_y;
-}
-
-DRB_FFI
-int bridge_sprite_get_atlas_w(Sprite* s) {
-  return (int)s->atlas_w;
-}
-
-DRB_FFI
-int bridge_sprite_get_atlas_h(Sprite* s) {
-  return (int)s->atlas_h;
+int* bridge_sprite_get_render_data(Sprite* s) {
+  return s->render_data;
 }
 
 

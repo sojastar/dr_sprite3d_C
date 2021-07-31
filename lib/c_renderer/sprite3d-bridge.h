@@ -1,28 +1,28 @@
-//#include <stdint.h>
-//#include <stddef.h>
-
-/* ---=== SPRITE : ====--- */
+/* ---=== TYPEDEFS : ===--- */
+typedef struct Vertex Vertex;
 typedef struct Sprite Sprite;
+typedef struct Body Body;
+typedef struct Scene Scene;
+typedef struct SCamera SCamera;
+typedef struct Renderer Renderer;
 
-extern Sprite*      bridge_new_sprite(float x, float y, float z,int width,int height,int scale,int file,int atlas_x,int atlas_y,int atlas_w,int atlas_h);
-extern void   bridge_print_sprite(Sprite* s,int indent);
-extern void   bridge_sprite_rotate(Sprite* s,float da);
-extern void   bridge_sprite_rotate_absolute(Sprite* s,float a);
-extern int    bridge_sprite_get_draw_x(Sprite* s);
-extern int    bridge_sprite_get_draw_y(Sprite* s);
-extern int    bridge_sprite_get_draw_w(Sprite* s);
-extern int    bridge_sprite_get_draw_h(Sprite* s);
-extern float  bridge_sprite_get_angle(Sprite* s);
-extern int    bridge_sprite_get_atlas_file_index(Sprite* s);
-extern int    bridge_sprite_get_atlas_x(Sprite* s);
-extern int    bridge_sprite_get_atlas_y(Sprite* s);
-extern int    bridge_sprite_get_atlas_w(Sprite* s);
-extern int    bridge_sprite_get_atlas_h(Sprite* s);
+
+/* ---=== VERTEX : ===--- */
+extern Vertex* bridge_new_vertex(float x,float y, float z);
+extern void    bridge_compute_world_coordinates(Vertex* v,Body* b);
+extern void    bridge_compute_view_coordinates(Vertex* v,SCamera* c);
+extern void    bridge_vertex_reset(Vertex *v);
+
+
+/* ---=== SPRITE : ===--- */
+extern Sprite*  bridge_new_sprite(float x, float y, float z,int width,int height,int scale,int file,int atlas_x,int atlas_y,int atlas_w,int atlas_h);
+extern void     bridge_print_sprite(Sprite* s,int indent);
+extern void     bridge_sprite_rotate(Sprite* s,int da);
+extern void     bridge_sprite_rotate_absolute(Sprite* s,int a);
+extern int*     bridge_sprite_get_render_data(Sprite* s);
 
 
 /* ---=== BODY : ===--- */
-typedef struct Body Body;
-
 extern Body*    bridge_new_empty_body(int sprite_count);
 extern Sprite** bridge_get_body_sprites(Body* b);
 extern void     bridge_print_body(Body* b,int indent);
@@ -35,8 +35,6 @@ extern void     bridge_body_reset_rotation(Body* b);
 
 
 /* ---=== SCENE : ===--- */
-typedef struct Scene Scene;
-
 extern Scene* bridge_new_scene(void);
 extern void   bridge_scene_push_element(Scene* s,Body* b);
 extern void   bridge_print_scene(Scene* s,int indent);
@@ -45,8 +43,6 @@ extern int    bridge_scene_get_sprite_count(Scene* s);
 
 
 /* ---=== CAMERA : ===--- */
-typedef struct SCamera SCamera;
-
 extern SCamera* bridge_new_camera(float x, float y, float z,float fx, float fy, float fz,float ux, float uy, float uz);
 extern void     bridge_print_camera(SCamera *camera);
 extern void     bridge_camera_move_to(SCamera* camera,float x, float y, float z);
@@ -60,8 +56,6 @@ extern void     bridge_camera_move_up(SCamera* camera, float speed);
 
 
 /* ---=== RENDERER : ===--- */
-typedef struct Renderer Renderer;
-
 extern Renderer*  bridge_new_renderer(int width,int height,float near,float far,int max_sprites);
 extern void       bridge_print_renderer(Renderer* r);
 extern void       bridge_render_scene(Renderer* r,SCamera* c,Scene* s);

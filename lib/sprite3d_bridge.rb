@@ -1,6 +1,28 @@
 $gtk.ffi_misc.gtk_dlopen("sprite3d")
 
 module Engine3D
+  ### VERTICES :
+  class Vertex
+    attr_reader :c_vertex
+
+    def initialize(x,y,z)
+      @c_vertex = FFI::Sprite3D_C::bridge_new_vertex(x, y, z)
+    end
+
+    def compute_world_coordinates(body);
+      FFI::Sprite3D_C::bridge_compute_world_coordinates(@c_vertex, body)
+    end
+
+    def compute_view_coordinates(camera)
+      FFI::Sprite3D_C::bridge_compute_view_coordinates(@c_vertex, camera)
+    end
+
+    def vertex_reset
+      FFI::Sprite3D_C::bridge_vertex_reset(@c_vertex)
+    end
+  end
+
+
   ### SPRITES :
   def self.new_sprite(x,y,z,width,height,scale,file,atlas_x,atlas_y,atlas_w,atlas_h)
     FFI::Sprite3D_C::bridge_new_sprite(x,y,z,width,height,scale,file,atlas_x,atlas_y,atlas_w,atlas_h)
@@ -172,6 +194,20 @@ module Engine3D
   end
 
   class RenderSprite
+    WIDTH             = 0
+    HEIGHT            = 1
+    SCALE             = 2
+    DRAW_X            = 3
+    DRAW_Y            = 4
+    DRAW_WIDTH        = 5
+    DRAW_HEIGHT       = 6
+    ANGLE             = 7
+    ATLAS_FILE_INDEX  = 8
+    ATLAS_X           = 9
+    ATLAS_Y           = 10
+    ATLAS_W           = 11
+    ATLAS_H           = 12
+
     attr_reader :index
     attr_sprite
   
@@ -186,21 +222,21 @@ module Engine3D
     end
   
     def draw_override(ffi_draw)
-      ffi_draw.draw_sprite_3( FFI::Sprite3D_C::bridge_sprite_get_draw_x(@c_sprites[@index]),
-                              FFI::Sprite3D_C::bridge_sprite_get_draw_y(@c_sprites[@index]),
-                              FFI::Sprite3D_C::bridge_sprite_get_draw_w(@c_sprites[@index]),
-                              FFI::Sprite3D_C::bridge_sprite_get_draw_h(@c_sprites[@index]),
-                              @atlases[FFI::Sprite3D_C::bridge_sprite_get_atlas_file_index(@c_sprites[@index])],
-                              #0.0,  # angle !!! Make an accessor in the bridge
-                              FFI::Sprite3D_C::bridge_sprite_get_angle(@c_sprites[@index]),  # angle !!! Make an accessor in the bridge
-                              255, 255, 255, 255, 
+      render_data = FFI::Sprite3D_C::bridge_sprite_get_render_data(@c_sprites[@index])
+      ffi_draw.draw_sprite_3( render_data[DRAW_X],
+                              render_data[DRAW_Y],
+                              render_data[DRAW_WIDTH],
+                              render_data[DRAW_HEIGHT],
+                              @atlases[render_data[ATLAS_FILE_INDEX]],
+                              render_data[ANGLE],
+                              255, 255, 255, 255,
                               false, false,
                               nil, nil, nil, nil,
                               0.0, 0.0,
-                              FFI::Sprite3D_C::bridge_sprite_get_atlas_x(@c_sprites[@index]),
-                              FFI::Sprite3D_C::bridge_sprite_get_atlas_y(@c_sprites[@index]),
-                              FFI::Sprite3D_C::bridge_sprite_get_atlas_w(@c_sprites[@index]),
-                              FFI::Sprite3D_C::bridge_sprite_get_atlas_h(@c_sprites[@index]) )
+                              render_data[ATLAS_X],
+                              render_data[ATLAS_Y],
+                              render_data[ATLAS_W],
+                              render_data[ATLAS_H] )
     end
   end
 end
