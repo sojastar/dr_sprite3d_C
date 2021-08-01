@@ -9,12 +9,15 @@ module Engine3D
       @c_vertex = FFI::Sprite3D_C::bridge_new_vertex(x, y, z)
     end
 
+    def set_local_coordinates(x,y,z)
+      FFI::Sprite3D_C::bridge_vertex_set_local_coordinates(@c_vertex, x, y, z)
+
     def compute_world_coordinates(body);
-      FFI::Sprite3D_C::bridge_compute_world_coordinates(@c_vertex, body)
+      FFI::Sprite3D_C::bridge_vertex_compute_world_coordinates(@c_vertex, body)
     end
 
     def compute_view_coordinates(camera)
-      FFI::Sprite3D_C::bridge_compute_view_coordinates(@c_vertex, camera)
+      FFI::Sprite3D_C::bridge_vertex_compute_view_coordinates(@c_vertex, camera)
     end
 
     def vertex_reset
