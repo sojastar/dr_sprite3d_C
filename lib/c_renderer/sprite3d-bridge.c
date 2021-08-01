@@ -18,6 +18,11 @@ Vertex* bridge_new_vertex(float x,float y, float z) {
 }
 
 DRB_FFI
+void bridge_vertex_reset(Vertex *v) {
+  vertex_reset(v);
+}
+
+DRB_FFI
 void bridge_vertex_set_local_coordinates(Vertex* v,float x,float y,float z) {
   vertex_set_local_coordinates(v, x, y, z);
 }
@@ -35,8 +40,18 @@ void bridge_vertex_compute_view_coordinates(Vertex* v,SCamera* c) {
 }
 
 DRB_FFI
-void bridge_vertex_reset(Vertex *v) {
-  vertex_reset(v);
+float* bridge_vertex_get_local_coordinates(Vertex* v) {
+  return v->local;
+}
+
+DRB_FFI
+float* bridge_vertex_get_world_coordinates(Vertex* v) {
+  return v->world;
+}
+
+DRB_FFI
+float* bridge_vertex_get_view_coordinates(Vertex* v) {
+  return v->view;
 }
 
 

@@ -9,6 +9,10 @@ module Engine3D
       @c_vertex = FFI::Sprite3D_C::bridge_new_vertex(x, y, z)
     end
 
+    def vertex_reset
+      FFI::Sprite3D_C::bridge_vertex_reset(@c_vertex)
+    end
+
     def set_local_coordinates(x,y,z)
       FFI::Sprite3D_C::bridge_vertex_set_local_coordinates(@c_vertex, x, y, z)
 
@@ -20,8 +24,16 @@ module Engine3D
       FFI::Sprite3D_C::bridge_vertex_compute_view_coordinates(@c_vertex, camera)
     end
 
-    def vertex_reset
-      FFI::Sprite3D_C::bridge_vertex_reset(@c_vertex)
+    def get_local_coordinates
+      FFI::Sprite3D_C::bridge_vertex_get_local_coordinates(@c_vertex) 
+    end
+
+    def get_world_coordinates
+      FFI::Sprite3D_C::bridge_vertex_get_world_coordinates(@c_vertex) 
+    end
+
+    def get_view_coordinates
+      FFI::Sprite3D_C::bridge_vertex_get_view_coordinates(@c_vertex) 
     end
   end
 

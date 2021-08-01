@@ -29,6 +29,15 @@ void free_vertex(Vertex* v) {
   free(v);
 }
 
+void vertex_reset(Vertex *v) {
+  v->local[0]   = 0.0;
+  v->local[1]   = 0.0;
+  v->local[2]   = 0.0;
+  v->local[3]   = 1.0;
+
+  v->processed  = UNPROCESSED;
+}
+
 void vertex_set_local_coordinates(Vertex* v,float x,float y,float z) {
   v->local[0]   = x;
   v->local[1]   = y;
@@ -47,13 +56,4 @@ void vertex_compute_view_coordinates(Vertex* v,float m[static 4][4]) {
   matrix_vector_mul(m, v->world, v->view);
   v->int_view_z = (uint16_t)v->view[2];
   v->processed = VIEW_COORDS_CALCULATED;
-}
-
-void vertex_reset(Vertex *v) {
-  v->local[0]   = 0.0;
-  v->local[1]   = 0.0;
-  v->local[2]   = 0.0;
-  v->local[3]   = 1.0;
-
-  v->processed  = UNPROCESSED;
 }

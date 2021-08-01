@@ -22,7 +22,7 @@ typedef struct Vertex {
 
 Vertex* new_vertex(float x,float y, float z);
 void    free_vertex(Vertex* v);
+void    vertex_reset(Vertex *v);
 void    vertex_set_local_coordinates(Vertex* v,float x,float y,float z);
 void    vertex_compute_world_coordinates(Vertex* v,float m[static 4][4]);
 void    vertex_compute_view_coordinates(Vertex* v,float m[static 4][4]);
-void    vertex_reset(Vertex *v);
