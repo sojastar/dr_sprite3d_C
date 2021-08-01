@@ -52,7 +52,7 @@ bool is_vertex_in_frustum(Renderer* renderer,Vertex* vertex) {
 }
 
 void project_vertex(Renderer* renderer,SCamera* camera,Vertex* vertex) {
-  compute_view_coordinates(vertex, camera->view_matrix);
+  vertex_compute_view_coordinates(vertex, camera->view_matrix);
 
   if (is_vertex_in_frustum(renderer, vertex)) {
     vertex->screen_x   = renderer->half_width  + (int)(                  renderer->half_width * vertex->view[0] / vertex->view[2]);
@@ -77,7 +77,7 @@ void render_scene(Renderer* renderer,SCamera* camera,Scene* scene) {
       Sprite* sprite  = body->sprites[i];
       Vertex* vertex  = sprite->vertex;
 
-      compute_world_coordinates(vertex, body->world);
+      vertex_compute_world_coordinates(vertex, body->world);
       project_vertex(renderer, camera, vertex);
 
       if (vertex->in_frustum) {

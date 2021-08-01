@@ -8,10 +8,11 @@ typedef struct Renderer Renderer;
 
 
 /* ---=== VERTEX : ===--- */
-extern Vertex* bridge_new_vertex(float x,float y, float z);
-extern void    bridge_compute_world_coordinates(Vertex* v,Body* b);
-extern void    bridge_compute_view_coordinates(Vertex* v,SCamera* c);
-extern void    bridge_vertex_reset(Vertex *v);
+extern Vertex*  bridge_new_vertex(float x,float y, float z);
+extern void     bridge_vertex_set_local_coordinates(Vertex* v,float x,float y,float z);
+extern void     bridge_vertex_compute_world_coordinates(Vertex* v,Body* b);
+extern void     bridge_vertex_compute_view_coordinates(Vertex* v,SCamera* c);
+extern void     bridge_vertex_reset(Vertex *v);
 
 
 /* ---=== SPRITE : ===--- */

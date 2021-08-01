@@ -18,12 +18,17 @@ Vertex* bridge_new_vertex(float x,float y, float z) {
 }
 
 DRB_FFI
-void bridge_compute_world_coordinates(Vertex* v,Body* b) {
-  compute_world_coordinates(v, b->world);
+void bridge_vertex_set_local_coordinates(Vertex* v,float x,float y,float z) {
+  vertex_set_local_coordinates(v, x, y, z);
 }
 
 DRB_FFI
-void bridge_compute_view_coordinates(Vertex* v,SCamera* c) {
+void bridge_vertex_compute_world_coordinates(Vertex* v,Body* b) {
+  vertex_compute_world_coordinates(v, b->world);
+}
+
+DRB_FFI
+void bridge_vertex_compute_view_coordinates(Vertex* v,SCamera* c) {
   matrix_vector_mul(c->view_matrix, v->world, v->view);
   v->int_view_z = (uint16_t)v->view[2];
   v->processed = VIEW_COORDS_CALCULATED;
